@@ -11,7 +11,7 @@ BIN = binary
 $(BIN): $(OBJ)/grid.o $(OBJ)/input.o $(OBJ)/random.o $(OBJ)/logic.o $(OBJ)/mines.o $(OBJ)/main.o
 		$(CC) -o $(BIN) $(OBJ)/*.o
 
-$(OBJ)/grid.o: $(LIB)/grid.hpp $(SRC)/grid.cpp
+$(OBJ)/grid.o: $(LIB)/msgassert.hpp $(LIB)/grid.hpp $(SRC)/grid.cpp
 		$(CC) $(CFLAGS) -I$(LIB) -c $(SRC)/grid.cpp -o $(OBJ)/grid.o
 
 $(OBJ)/input.o: $(LIB)/input.hpp $(SRC)/input.cpp
@@ -23,7 +23,7 @@ $(OBJ)/random.o: $(LIB)/random.hpp $(SRC)/random.cpp
 $(OBJ)/logic.o: $(LIB)/random.hpp $(LIB)/logic.hpp $(SRC)/logic.cpp
 		$(CC) $(CFLAGS) -I$(LIB) -c $(SRC)/logic.cpp -o $(OBJ)/logic.o
 
-$(OBJ)/mines.o: $(LIB)/input.hpp $(LIB)/grid.hpp $(LIB)/mines.hpp $(SRC)/mines.cpp
+$(OBJ)/mines.o: $(LIB)/msgassert.hpp $(LIB)/input.hpp $(LIB)/grid.hpp $(LIB)/mines.hpp $(SRC)/mines.cpp
 		$(CC) $(CFLAGS) -I$(LIB) -c $(SRC)/mines.cpp -o $(OBJ)/mines.o
 
 $(OBJ)/main.o: $(LIB)/mines.hpp $(SRC)/main.cpp
