@@ -1,5 +1,6 @@
 #include "grid.hpp"
 #include "color.hpp"
+#include "msgassert.hpp"
 #include <iostream>
 
 using std::cout;
@@ -7,12 +8,17 @@ using std::make_pair;
 using std::pair;
 
 Grid::Grid(const int &_rows, const int &_cols) : rows(_rows), cols(_cols) {
-    // TODO: assert allocation occurred normally
+    assert(this->rows > 0, "Number of rows needs to be a positive integer");
+    assert(this->cols > 0, "Number of columns needs to be a positive integer");
+
     this->values = new (std::nothrow) char *[this->rows];
+    assert(this->values, "Failed to allocate memory for grid");
     for (int i = 0; i < this->rows; ++i) {
         this->values[i] = new (std::nothrow) char[this->cols];
+        assert(this->values[i], "Failed to allocate memory for row");
     }
 }
+
 Grid::~Grid() {
     for (int i = 0; i < this->rows; ++i)
         delete[] this->values[i];

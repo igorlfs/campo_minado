@@ -1,6 +1,7 @@
 #include "mines.hpp"
 #include "input.hpp"
 #include "logic.hpp"
+#include "msgassert.hpp"
 #include <iostream>
 
 using std::cout;
@@ -8,8 +9,8 @@ using std::make_pair;
 
 Mines::Mines(const int &_rows, const int &_cols, const int &_bombs)
     : grid(_rows + 2, _cols + 2), engine(_bombs) {
-    // TODO: Assert there's enough space to place the bombs
-    // TODO: sizes, bombs > 0
+    assert(_bombs < _rows * _cols, "Too many bombs");
+
     this->engine.placeBombs(this->grid);
     this->grid.initialize();
 }
