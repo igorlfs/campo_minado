@@ -40,7 +40,10 @@ void Mines::update() {
             cout << "\nVocê não pode desmarcar uma posição não marcada.\n\n";
         }
     }
-    if (this->engine.hasWon(this->grid)) this->gameOver = true;
+    if (this->engine.hasWon(this->grid)) {
+        cout << "\nVocê venceu! Parabéns\n\n";
+        this->gameOver = true;
+    }
 }
 
 void Mines::print() const {
