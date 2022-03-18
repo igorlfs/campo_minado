@@ -8,7 +8,7 @@ class Mines {
   public:
     Mines(const int &_rows, const int &_cols, const int &_bombs);
 
-    bool isGameOver() { return this->gameOver; }
+    [[nodiscard]] bool isGameOver() const { return this->gameOver; }
 
     void getInput();
     void update();

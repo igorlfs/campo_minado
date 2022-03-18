@@ -4,25 +4,27 @@
 #include <utility>
 
 class Grid {
-    static constexpr char bomb = 'b';
-    static constexpr char mark = 'm';
-    static constexpr char hidden = '+';
+    static constexpr char BOMB = 'b';
+    static constexpr char MARK = 'm';
+    static constexpr char HIDDEN = '+';
 
   public:
     Grid(const int &_rows, const int &_cols);
     ~Grid();
 
-    char getValue(const std::pair<int, int> &p) const {
+    [[nodiscard]] char getValue(const std::pair<int, int> &p) const {
         return this->values[p.first][p.second];
     }
-    unsigned size() const { return (this->rows - 2) * (this->cols - 2); }
-
-    void placeBomb(const std::pair<int, int> &p) {
-        this->values[p.first][p.second] = this->bomb;
+    [[nodiscard]] unsigned size() const {
+        return (this->rows - 2) * (this->cols - 2);
     }
 
-    int getRows() const { return this->rows; }
-    int getCols() const { return this->cols; }
+    void placeBomb(const std::pair<int, int> &p) {
+        this->values[p.first][p.second] = Grid::BOMB;
+    }
+
+    [[nodiscard]] int getRows() const { return this->rows; }
+    [[nodiscard]] int getCols() const { return this->cols; }
 
     void printHeader() const;
     void printSeparator() const;
@@ -32,7 +34,7 @@ class Grid {
     void initialize();
     char countBombs(const int &m, const int &n);
 
-    bool isOutOfBounds(const std::pair<int, int> &p) const;
+    [[nodiscard]] bool isOutOfBounds(const std::pair<int, int> &p) const;
 
   private:
     int rows;

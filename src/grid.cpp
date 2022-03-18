@@ -20,8 +20,9 @@ Grid::Grid(const int &_rows, const int &_cols) : rows(_rows), cols(_cols) {
 }
 
 Grid::~Grid() {
-    for (int i = 0; i < this->rows; ++i)
+    for (int i = 0; i < this->rows; ++i) {
         delete[] this->values[i];
+    }
     delete[] this->values;
 }
 
@@ -35,8 +36,9 @@ void Grid::printHeader() const {
 }
 
 void Grid::printSeparator() const {
-    for (int i = 0; i < cols - 2; ++i)
+    for (int i = 0; i < cols - 2; ++i) {
         cout << BLU << "───┼" << RESET;
+    }
     cout << BLU << "───\n" << RESET;
 }
 
@@ -49,14 +51,21 @@ void Grid::print(const std::set<std::pair<int, int>> &marked,
         cout << ' ' << col << BLU << " │ " << RESET;
         for (int j = 1; j < this->cols - 1; ++j) {
             const pair<int, int> p = make_pair(i, j);
-            if (marked.find(p) != marked.end())
-                cout << RED << this->mark << RESET;
-            else if (revealed.find(p) != revealed.end()) {
+            if (marked.find(p) != marked.end()) {
+                cout << RED << Grid::MARK << RESET;
+            } else if (revealed.find(p) != revealed.end()) {
                 const char c = this->values[i][j];
-                if (c == '0') cout << ' ';
-                else cout << YEL << c << RESET;
-            } else cout << GRE << hidden << RESET;
-            if (j != this->cols - 2) cout << BLU << " │ " << RESET;
+                if (c == '0') {
+                    cout << ' ';
+                } else {
+                    cout << YEL << c << RESET;
+                }
+            } else {
+                cout << GRE << Grid::HIDDEN << RESET;
+            }
+            if (j != this->cols - 2) {
+                cout << BLU << " │ " << RESET;
+            }
         }
         ++col;
         cout.put('\n');
@@ -68,7 +77,7 @@ void Grid::initialize() {
     for (int i = 1; i < this->rows - 1; ++i) {
         for (int j = 1; j < this->cols - 1; ++j) {
             // The cell itself isn't counted
-            if (this->values[i][j] != this->bomb) {
+            if (this->values[i][j] != Grid::BOMB) {
                 this->values[i][j] = countBombs(i, j);
             }
         }
@@ -79,7 +88,9 @@ char Grid::countBombs(const int &m, const int &n) {
     char bombNeighbors = '0';
     for (int i = m - 1; i <= m + 1; ++i) {
         for (int j = n - 1; j <= n + 1; ++j) {
-            if (this->values[i][j] == this->bomb) bombNeighbors++;
+            if (this->values[i][j] == Grid::BOMB) {
+                bombNeighbors++;
+            }
         }
     }
     return bombNeighbors;

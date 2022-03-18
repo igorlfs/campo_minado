@@ -19,7 +19,9 @@ void Mines::getInput() {
     this->engine.setAction(Input::getAction());
 
     // Only greet once
-    if (this->position == make_pair(0, 0)) Input::greetPosition();
+    if (this->position == make_pair(0, 0)) {
+        Input::greetPosition();
+    }
     this->position = Input::getPosition();
 }
 

@@ -10,7 +10,7 @@ class Logic {
 
     void setAction(const char &c) { this->action = c; }
 
-    bool hasWon(const Grid &g) const;
+    [[nodiscard]] bool hasWon(const Grid &g) const;
 
     void placeBombs(Grid &g);
     void update(const Grid &g, const std::pair<int, int> &p);

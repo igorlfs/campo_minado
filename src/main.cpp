@@ -2,7 +2,10 @@
 #include "mines.hpp"
 
 int main() {
-    Mines g(6, 6, 6);
+    constexpr int x = 6;
+    constexpr int y = 6;
+    constexpr int numBombs = 9;
+    Mines g(x, y, numBombs);
 
     g.print();
     Input::greetAction();
@@ -10,6 +13,8 @@ int main() {
     while (!g.isGameOver()) {
         g.getInput();
         g.update();
-        if (!g.isGameOver()) g.print();
+        if (!g.isGameOver()) {
+            g.print();
+        }
     }
 }

@@ -30,19 +30,19 @@ insertAgain:
         int column;
 
         getline(cin, readLine);
-        if (cin.eof()) throw interrupt();
-        if (!regex_match(readLine, expectedFormat))
+        if (cin.eof()) {
+            throw interrupt();
+        }
+        if (!regex_match(readLine, expectedFormat)) {
             throw invalidPositionFormat();
+        }
 
         stringstream ss(readLine);
         ss >> row >> column;
-        // Subtract 64 from an uppercase letter in ASCII
-        return make_pair((int)(row - 64), column);
-
+        return make_pair((int)(row - (int)'A') + 1, column);
     } catch (interrupt e) {
         cerr << "\n\nA entrada de dados foi interrompida. Saindo.\n\n";
         exit(1);
-
     } catch (invalidPositionFormat e) {
         cout << "\nEntrada Inválida. Atente-se aos exemplos de entrada.\n";
         goto insertAgain;
@@ -70,8 +70,12 @@ insertAgain:
 
         getline(cin, readLine);
 
-        if (cin.eof()) throw interrupt();
-        if (!regex_match(readLine, expectedFormat)) throw invalidActionFormat();
+        if (cin.eof()) {
+            throw interrupt();
+        }
+        if (!regex_match(readLine, expectedFormat)) {
+            throw invalidActionFormat();
+        }
 
         stringstream ss(readLine);
         ss >> action;
@@ -82,7 +86,6 @@ insertAgain:
         }
 
         return action;
-
     } catch (interrupt e) {
         cerr << "\n\nA entrada de dados foi interrompida. Saindo.\n\n";
         exit(1);
