@@ -1,6 +1,6 @@
 CC = g++
 
-CFLAGS = -Wall -Wextra -std=c++17 -g
+CFLAGS = -Wall -Wextra -std=c++17 -g -Wshadow -Wpedantic
 
 OBJ = obj
 LIB = lib
