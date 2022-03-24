@@ -22,16 +22,16 @@ void Logic::placeBombs(Grid &g) {
 }
 
 bool Logic::hasWon(const Grid &g) const {
-    const bool marks = this->marked == this->bombs;
-    const bool reveals = this->revealed.size() == g.size() - this->bombs.size();
-    return (marks && reveals);
+    const bool MARKS = this->marked == this->bombs;
+    const bool REVEALS = this->revealed.size() == g.size() - this->bombs.size();
+    return (MARKS && REVEALS);
 }
 
 void Logic::update(const Grid &g, const pair<int, int> &p) {
     switch (this->action) {
-    case Actions::show: handleReveal(p, g); break;
-    case Actions::mark: handleMark(p); break;
-    case Actions::undo: handleUndo(p); break;
+    case Actions::SHOW: handleReveal(p, g); break;
+    case Actions::MARK: handleMark(p); break;
+    case Actions::UNDO: handleUndo(p); break;
     default: std::cerr << "\nAção ilegal 😵"; exit(1);
     }
 }
@@ -73,9 +73,10 @@ void Logic::reveal(const pair<int, int> &p, const Grid &g) {
     // Recursively search the surroundings if they haven't been searched yet
     for (int i = -1; i <= 1; ++i) {
         for (int j = -1; j <= 1; ++j) {
-            const pair<int, int> q = make_pair(p.first + i, p.second + j);
-            if (this->revealed.find(q) == this->revealed.end()) {
-                this->reveal(q, g);
+            const pair<int, int> NEIGHBOR =
+                make_pair(p.first + i, p.second + j);
+            if (this->revealed.find(NEIGHBOR) == this->revealed.end()) {
+                this->reveal(NEIGHBOR, g);
             }
         }
     }

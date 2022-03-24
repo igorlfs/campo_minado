@@ -2,10 +2,10 @@
 #include "mines.hpp"
 
 int main() {
-    constexpr int x = 6;
-    constexpr int y = 6;
-    constexpr int numBombs = 9;
-    Mines g(x, y, numBombs);
+    constexpr int ROWS = 6;
+    constexpr int COLS = 6;
+    constexpr int NUM_BOMBS = 9;
+    Mines g(ROWS, COLS, NUM_BOMBS);
 
     g.print();
     Input::greetAction();
