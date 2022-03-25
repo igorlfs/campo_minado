@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <set>
 #include <utility>
 
@@ -12,7 +13,7 @@ static constexpr char NOT = '0';
 class Grid {
 
   public:
-    Grid(const int &_rows, const int &_cols);
+    Grid(const int &_rows, const int &_cols, std::ostream &_ostream);
     ~Grid();
 
     [[nodiscard]] char getValue(const std::pair<int, int> &p) const {
@@ -43,4 +44,5 @@ class Grid {
     int rows;
     int cols;
     char **values;
+    std::ostream &outStream;
 };
