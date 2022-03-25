@@ -3,10 +3,13 @@
 #include <set>
 #include <utility>
 
+static constexpr char BOMB = 'b';
+static constexpr char MARK = 'm';
+static constexpr char HIDDEN = '+';
+static constexpr char BLANK = ' ';
+static constexpr char NOT = '0';
+
 class Grid {
-    static constexpr char BOMB = 'b';
-    static constexpr char MARK = 'm';
-    static constexpr char HIDDEN = '+';
 
   public:
     Grid(const int &_rows, const int &_cols);
@@ -20,7 +23,7 @@ class Grid {
     }
 
     void placeBomb(const std::pair<int, int> &p) {
-        this->values[p.first][p.second] = Grid::BOMB;
+        this->values[p.first][p.second] = BOMB;
     }
 
     [[nodiscard]] int getRows() const { return this->rows; }

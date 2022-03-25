@@ -8,13 +8,13 @@ int main() {
     Mines g(ROWS, COLS, NUM_BOMBS);
 
     g.print();
+
     Input::greetAction();
+    Input::greetPosition();
 
     while (!g.isGameOver()) {
-        g.getInput();
+        g.input();
         g.update();
-        if (!g.isGameOver()) {
-            g.print();
-        }
+        g.print();
     }
 }

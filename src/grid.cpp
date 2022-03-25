@@ -13,6 +13,7 @@ Grid::Grid(const int &_rows, const int &_cols) : rows(_rows), cols(_cols) {
 
     this->values = new (std::nothrow) char *[this->rows];
     assert(this->values, "Failed to allocate memory for grid");
+
     for (int i = 0; i < this->rows; ++i) {
         this->values[i] = new (std::nothrow) char[this->cols];
         assert(this->values[i], "Failed to allocate memory for row");
@@ -46,22 +47,29 @@ void Grid::print(const std::set<std::pair<int, int>> &marked,
                  const std::set<std::pair<int, int>> &revealed) const {
     printHeader();
     char col = 'A';
+
     for (int i = 1; i < this->rows - 1; ++i) {
         printSeparator();
         cout << ' ' << col << BLU << " │ " << RESET;
+
         for (int j = 1; j < this->cols - 1; ++j) {
-            const pair<int, int> p = make_pair(i, j);
-            if (marked.find(p) != marked.end()) {
-                cout << RED << Grid::MARK << RESET;
-            } else if (revealed.find(p) != revealed.end()) {
-                const char c = this->values[i][j];
-                if (c == '0') {
-                    cout << ' ';
-                } else {
-                    cout << YEL << c << RESET;
+            const pair<int, int> P = make_pair(i, j);
+
+            if (marked.count(P) > 0) {
+                cout << RED << MARK << RESET;
+            } else if (revealed.count(P) > 0) {
+                switch (this->values[i][j]) {
+                case NOT:
+                    cout << BLANK;
+                    break;
+                case BOMB:
+                    cout << MAG << BOMB << RESET;
+                    break;
+                default:
+                    cout << YEL << this->values[i][j] << RESET;
                 }
             } else {
-                cout << GRE << Grid::HIDDEN << RESET;
+                cout << GRE << HIDDEN << RESET;
             }
             if (j != this->cols - 2) {
                 cout << BLU << " │ " << RESET;
@@ -76,8 +84,7 @@ void Grid::print(const std::set<std::pair<int, int>> &marked,
 void Grid::initialize() {
     for (int i = 1; i < this->rows - 1; ++i) {
         for (int j = 1; j < this->cols - 1; ++j) {
-            // The cell itself isn't counted
-            if (this->values[i][j] != Grid::BOMB) {
+            if (this->values[i][j] != BOMB) {
                 this->values[i][j] = countBombs(i, j);
             }
         }
@@ -85,10 +92,10 @@ void Grid::initialize() {
 }
 
 char Grid::countBombs(const int &m, const int &n) {
-    char bombNeighbors = '0';
+    char bombNeighbors = NOT;
     for (int i = m - 1; i <= m + 1; ++i) {
         for (int j = n - 1; j <= n + 1; ++j) {
-            if (this->values[i][j] == Grid::BOMB) {
+            if (this->values[i][j] == BOMB) {
                 bombNeighbors++;
             }
         }

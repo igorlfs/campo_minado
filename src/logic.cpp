@@ -7,6 +7,12 @@
 using std::make_pair;
 using std::pair;
 
+bool Logic::hasWon(const int &gridSize) const {
+    const bool MARKS = this->marked == this->bombs;
+    const bool REVEALS = this->revealed.size() == gridSize - this->bombs.size();
+    return (MARKS && REVEALS);
+}
+
 void Logic::placeBombs(Grid &g) {
     for (int i = 0; i < this->numBombs; ++i) {
         while (true) {
@@ -21,26 +27,30 @@ void Logic::placeBombs(Grid &g) {
     }
 }
 
-bool Logic::hasWon(const Grid &g) const {
-    const bool MARKS = this->marked == this->bombs;
-    const bool REVEALS = this->revealed.size() == g.size() - this->bombs.size();
-    return (MARKS && REVEALS);
+void Logic::handleMark(const pair<int, int> &p) {
+    if (this->revealed.count(p) > 0) {
+        throw unmarkable();
+    }
+    if (this->marked.count(p) > 0) {
+        throw repeated();
+    }
+    this->marked.insert(p);
 }
 
-void Logic::update(const Grid &g, const pair<int, int> &p) {
-    switch (this->action) {
-    case Actions::SHOW: handleReveal(p, g); break;
-    case Actions::MARK: handleMark(p); break;
-    case Actions::UNDO: handleUndo(p); break;
-    default: std::cerr << "\nAção ilegal 😵"; exit(1);
+void Logic::handleUnmark(const pair<int, int> &p) {
+    if (this->marked.count(p) == 0) {
+        throw notmarked();
     }
+    this->marked.erase(p);
 }
 
 void Logic::handleReveal(const std::pair<int, int> &p, const Grid &g) {
-    if (this->bombs.find(p) != this->bombs.end()) {
+    if (this->bombs.count(p) > 0) {
+        // Reveal bomb to print it after exploding
+        this->revealed.insert(p);
         throw exploded();
     }
-    if (this->revealed.find(p) != this->revealed.end()) {
+    if (this->revealed.count(p) > 0) {
         throw repeated();
     }
     reveal(p, g);
@@ -56,7 +66,7 @@ void Logic::reveal(const pair<int, int> &p, const Grid &g) {
     this->revealed.insert(p);
 
     // Remove marked position if necessary
-    if (this->marked.find(p) != this->marked.end()) {
+    if (this->marked.count(p) > 0) {
         this->marked.erase(p);
     }
 
@@ -66,35 +76,17 @@ void Logic::reveal(const pair<int, int> &p, const Grid &g) {
     // options: either zero hasn't been chosen, which stops the search
     // immediately OR the number is zero, but a bomb can only be surrounded by
     // non null numbers and the search stops when finding them.
-    if (g.getValue(p) != '0') {
+    if (g.getValue(p) != NOT) {
         return;
     }
 
     // Recursively search the surroundings if they haven't been searched yet
     for (int i = -1; i <= 1; ++i) {
         for (int j = -1; j <= 1; ++j) {
-            const pair<int, int> NEIGHBOR =
-                make_pair(p.first + i, p.second + j);
-            if (this->revealed.find(NEIGHBOR) == this->revealed.end()) {
-                this->reveal(NEIGHBOR, g);
+            const pair<int, int> Q = make_pair(p.first + i, p.second + j);
+            if (this->revealed.count(Q) == 0) {
+                reveal(Q, g);
             }
         }
     }
-}
-
-void Logic::handleUndo(const pair<int, int> &p) {
-    if (this->marked.find(p) == this->marked.end()) {
-        throw notmarked();
-    }
-    this->marked.erase(p);
-}
-
-void Logic::handleMark(const pair<int, int> &p) {
-    if (this->revealed.find(p) != this->revealed.end()) {
-        throw unmarkable();
-    }
-    if (this->marked.find(p) != this->marked.end()) {
-        throw repeated();
-    }
-    this->marked.insert(p);
 }

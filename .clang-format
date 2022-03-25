@@ -1,3 +1,2 @@
 AllowShortIfStatementsOnASingleLine: AllIfsAndElse
-AllowShortCaseLabelsOnASingleLine: true
 IndentWidth: 4

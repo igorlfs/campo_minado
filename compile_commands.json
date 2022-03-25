@@ -6,74 +6,8 @@
       "-Wextra",
       "-std=c++17",
       "-g",
-      "-Ilib",
-      "-c",
-      "-o",
-      "obj/grid.o",
-      "src/grid.cpp"
-    ],
-    "directory": "/home/user/code/mines",
-    "file": "/home/user/code/mines/src/grid.cpp",
-    "output": "/home/user/code/mines/obj/grid.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/g++",
-      "-Wall",
-      "-Wextra",
-      "-std=c++17",
-      "-g",
-      "-Ilib",
-      "-c",
-      "-o",
-      "obj/input.o",
-      "src/input.cpp"
-    ],
-    "directory": "/home/user/code/mines",
-    "file": "/home/user/code/mines/src/input.cpp",
-    "output": "/home/user/code/mines/obj/input.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/g++",
-      "-Wall",
-      "-Wextra",
-      "-std=c++17",
-      "-g",
-      "-Ilib",
-      "-c",
-      "-o",
-      "obj/random.o",
-      "src/random.cpp"
-    ],
-    "directory": "/home/user/code/mines",
-    "file": "/home/user/code/mines/src/random.cpp",
-    "output": "/home/user/code/mines/obj/random.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/g++",
-      "-Wall",
-      "-Wextra",
-      "-std=c++17",
-      "-g",
-      "-Ilib",
-      "-c",
-      "-o",
-      "obj/logic.o",
-      "src/logic.cpp"
-    ],
-    "directory": "/home/user/code/mines",
-    "file": "/home/user/code/mines/src/logic.cpp",
-    "output": "/home/user/code/mines/obj/logic.o"
-  },
-  {
-    "arguments": [
-      "/usr/bin/g++",
-      "-Wall",
-      "-Wextra",
-      "-std=c++17",
-      "-g",
+      "-Wshadow",
+      "-Wpedantic",
       "-Ilib",
       "-c",
       "-o",
@@ -91,6 +25,8 @@
       "-Wextra",
       "-std=c++17",
       "-g",
+      "-Wshadow",
+      "-Wpedantic",
       "-Ilib",
       "-c",
       "-o",

@@ -15,7 +15,8 @@ using std::string;
 using std::stringstream;
 
 void Input::greetPosition() {
-    cout << "\nUma posição válida é composta por uma letra MAIÚSCULA"
+    cout << "\nPosições válidas:\n"
+            "Uma posição válida é composta por uma letra MAIÚSCULA"
          << " e um número (necessariamente nessa ordem).\n"
          << "Exemplos de posições válidas são: A2, C5, D4\n\n";
 }
@@ -24,7 +25,7 @@ pair<int, int> Input::getPosition() {
 insertAgain:
     cout << "Escolha uma posição: ";
     try {
-        const regex expectedFormat("[A-Z][1-9][0-9]*");
+        const regex EXPECTED_FORMAT("[A-Z][1-9][0-9]*");
         string readLine;
         char row;
         int column;
@@ -33,7 +34,7 @@ insertAgain:
         if (cin.eof()) {
             throw interrupt();
         }
-        if (!regex_match(readLine, expectedFormat)) {
+        if (!regex_match(readLine, EXPECTED_FORMAT)) {
             throw invalidPositionFormat();
         }
 
@@ -51,11 +52,11 @@ insertAgain:
 
 void Input::greetAction() {
     cout << "Ações disponíveis: \n"
-         << Actions::show << " - revelar: você sabe 😉\n"
-         << Actions::mark
+         << Actions::SHOW << " - revelar: você sabe 😉\n"
+         << Actions::MARK
          << " - marcar: sinalize onde você suspeita que existe uma bomba. "
             "Necessário para ganhar.\n"
-         << Actions::undo
+         << Actions::UNMARK
          << " - desmarcar: use se mudou de ideia em relação a uma "
             "posição marcada\n\n";
 }
@@ -64,7 +65,7 @@ char Input::getAction() {
 insertAgain:
     cout << "Escolha uma ação: ";
     try {
-        const regex expectedFormat("[a-z]");
+        const regex EXPECTED_FORMAT("[a-z]");
         string readLine;
         char action;
 
@@ -73,15 +74,15 @@ insertAgain:
         if (cin.eof()) {
             throw interrupt();
         }
-        if (!regex_match(readLine, expectedFormat)) {
+        if (!regex_match(readLine, EXPECTED_FORMAT)) {
             throw invalidActionFormat();
         }
 
         stringstream ss(readLine);
         ss >> action;
 
-        if (action != Actions::show && action != Actions::mark &&
-            action != Actions::undo) {
+        if (action != Actions::SHOW && action != Actions::MARK &&
+            action != Actions::UNMARK) {
             throw invalidAction();
         }
 
