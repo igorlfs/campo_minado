@@ -1,4 +1,5 @@
 .cache/
 binary
+tests
 obj/*
 !obj/.gitkeep
