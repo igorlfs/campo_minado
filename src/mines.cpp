@@ -5,11 +5,13 @@
 #include "msgassert.hpp"
 #include <iostream>
 
+using std::cerr;
+using std::cin;
 using std::cout;
 using std::make_pair;
 
 Mines::Mines(const int &_rows, const int &_cols, const int &_bombs)
-    : grid(_rows + 2, _cols + 2), logic(_bombs) {
+    : grid(_rows + 2, _cols + 2, cout), logic(_bombs, cout) {
     assert(_bombs < _rows * _cols, "Too many bombs");
 
     this->logic.placeBombs(this->grid);
@@ -17,8 +19,8 @@ Mines::Mines(const int &_rows, const int &_cols, const int &_bombs)
 }
 
 void Mines::input() {
-    this->action = Input::getAction();
-    this->pos = Input::getPosition();
+    this->action = Input::getAction(cin, cout, cerr);
+    this->pos = Input::getPosition(cin, cout, cerr);
 }
 
 void Mines::update() {

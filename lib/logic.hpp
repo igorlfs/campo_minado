@@ -1,6 +1,7 @@
 #pragma once
 
 #include "grid.hpp"
+#include <iostream>
 #include <set>
 #include <utility>
 

@@ -1,8 +1,6 @@
 #include "logic.hpp"
 #include "actions.hpp"
 #include "random.hpp"
-#include <iostream>
-#include <utility>
 
 using std::make_pair;
 using std::pair;
