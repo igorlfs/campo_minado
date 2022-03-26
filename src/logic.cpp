@@ -27,31 +27,22 @@ void Logic::placeBombs(Grid &g) {
 
 void Logic::handleMark(const pair<int, int> &p) {
     if (this->revealed.count(p) > 0) {
-        throw unmarkable();
+        this->outStream << "\nVocê não pode marcar uma posição revelada.\n\n";
+    } else {
+        this->marked.insert(p);
     }
-    if (this->marked.count(p) > 0) {
-        throw repeated();
-    }
-    this->marked.insert(p);
-}
-
-void Logic::handleUnmark(const pair<int, int> &p) {
-    if (this->marked.count(p) == 0) {
-        throw notmarked();
-    }
-    this->marked.erase(p);
 }
 
 void Logic::handleReveal(const std::pair<int, int> &p, const Grid &g) {
     if (this->bombs.count(p) > 0) {
         // Reveal bomb to print it after exploding
         this->revealed.insert(p);
-        throw exploded();
+        // It may also be necessary to erase the bomb from marked
+        this->marked.erase(p);
+        this->exploded = true;
+    } else {
+        reveal(p, g);
     }
-    if (this->revealed.count(p) > 0) {
-        throw repeated();
-    }
-    reveal(p, g);
 }
 
 void Logic::reveal(const pair<int, int> &p, const Grid &g) {

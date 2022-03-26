@@ -27,31 +27,24 @@ void Mines::update() {
     if (this->grid.isOutOfBounds(this->pos)) {
         cout << "\nOops. Essa posição não é válida.\n\n";
     } else {
-        try {
-            switch (this->action) {
-            case Actions::SHOW:
-                this->logic.handleReveal(this->pos, this->grid);
-                break;
-            case Actions::MARK:
-                this->logic.handleMark(this->pos);
-                break;
-            case Actions::UNMARK:
-                this->logic.handleUnmark(this->pos);
-                break;
-            default:
-                std::cerr << "\nAção ilegal\n\n";
-                exit(1);
-            }
-        } catch (exploded e) {
-            cout << "\n\nVocê perdeu! Só te resta chorar agora 😢\n\n";
-            this->gameOver = true;
-        } catch (repeated e) {
-            cout << "\nVocê já realizou essa ação nessa posição.\n\n";
-        } catch (unmarkable e) {
-            cout << "\nVocê não pode marcar uma posição revelada.\n\n";
-        } catch (notmarked e) {
-            cout << "\nVocê não pode desmarcar uma posição não marcada.\n\n";
+        switch (this->action) {
+        case Actions::SHOW:
+            this->logic.handleReveal(this->pos, this->grid);
+            break;
+        case Actions::MARK:
+            this->logic.handleMark(this->pos);
+            break;
+        case Actions::UNMARK:
+            this->logic.handleUnmark(this->pos);
+            break;
+        default:
+            cerr << "\nAção ilegal\n\n";
+            exit(1);
         }
+    }
+    if (this->logic.hasExploded()) {
+        cout << "\nVocê perdeu! Que pena!\n\n";
+        this->gameOver = true;
     }
     if (this->logic.hasWon(this->grid.size())) {
         cout << "\nVocê venceu! Parabéns!\n\n";
