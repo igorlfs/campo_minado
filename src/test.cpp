@@ -1,3 +1,5 @@
+#include "color.hpp"
+#include "grid.hpp"
 #include "input.hpp"
 #include <gtest/gtest.h>
 
@@ -65,6 +67,37 @@ TEST(getAction, domain) {
     string actual = fakeOutput.str();
 
     EXPECT_EQ(actual, expected);
+}
+
+TEST(grid, constructor) {
+    ostringstream fakeOutput;
+
+    EXPECT_DEATH(Grid g(0, 4, fakeOutput),
+                 "Number of rows needs to be a positive integer");
+    EXPECT_DEATH(Grid g(4, 0, fakeOutput),
+                 "Number of columns needs to be a positive integer");
+}
+
+TEST(grid, printHeader) {
+    ostringstream fakeOutput;
+    string expected = "\n" BLU "   │ " RESET "1" BLU " │ " RESET "2\n";
+    Grid g(4, 4, fakeOutput);
+
+    g.printHeader();
+    string actual = fakeOutput.str();
+
+    EXPECT_EQ(expected, actual);
+}
+
+TEST(grid, printSeparator) {
+    ostringstream fakeOutput;
+    string expected = BLU "───┼" RESET BLU "───┼" RESET BLU "───\n" RESET;
+    Grid g(4, 4, fakeOutput);
+
+    g.printSeparator();
+    string actual = fakeOutput.str();
+
+    EXPECT_EQ(expected, actual);
 }
 
 int main(int argc, char **argv) {
