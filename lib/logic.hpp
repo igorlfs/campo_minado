@@ -32,8 +32,3 @@ class Logic {
 
     friend class Mines;
 };
-
-struct exploded {};
-struct repeated {};
-struct unmarkable {};
-struct notmarked {};
