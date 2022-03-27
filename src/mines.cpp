@@ -50,7 +50,7 @@ void Mines::update() {
         cout << "\nVocê perdeu! Que pena!\n\n";
         this->gameOver = true;
     }
-    if (this->logic.hasWon(this->grid.size())) {
+    if (this->logic.hasWon(this->grid.getSize())) {
         cout << "\nVocê venceu! Parabéns!\n\n";
         this->gameOver = true;
     }

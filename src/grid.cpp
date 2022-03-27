@@ -9,23 +9,14 @@ using std::set;
 
 Grid::Grid(const int &_rows, const int &_cols, ostream &_ostream)
     : rows(_rows), cols(_cols), outStream(_ostream) {
+
     assert(this->rows > 0, "Number of rows needs to be a positive integer");
     assert(this->cols > 0, "Number of columns needs to be a positive integer");
 
-    this->values = new (std::nothrow) char *[this->rows];
-    assert(this->values, "Failed to allocate memory for grid");
-
+    this->values.resize(this->rows);
     for (int i = 0; i < this->rows; ++i) {
-        this->values[i] = new (std::nothrow) char[this->cols];
-        assert(this->values[i], "Failed to allocate memory for row");
+        this->values.at(i).resize(this->cols);
     }
-}
-
-Grid::~Grid() {
-    for (int i = 0; i < this->rows; ++i) {
-        delete[] this->values[i];
-    }
-    delete[] this->values;
 }
 
 void Grid::printHeader() const {
@@ -60,7 +51,7 @@ void Grid::print(const set<pair<int, int>> &marked,
             if (marked.count(P) > 0) {
                 this->outStream << RED << MARK << RESET;
             } else if (revealed.count(P) > 0) {
-                switch (this->values[i][j]) {
+                switch (this->values.at(i).at(j)) {
                 case NOT:
                     this->outStream << BLANK;
                     break;
@@ -68,7 +59,7 @@ void Grid::print(const set<pair<int, int>> &marked,
                     this->outStream << MAG << BOMB << RESET;
                     break;
                 default:
-                    this->outStream << YEL << this->values[i][j] << RESET;
+                    this->outStream << YEL << this->values.at(i).at(j) << RESET;
                 }
             } else {
                 this->outStream << GRE << HIDDEN << RESET;
@@ -86,8 +77,8 @@ void Grid::print(const set<pair<int, int>> &marked,
 void Grid::initialize() {
     for (int i = 1; i < this->rows - 1; ++i) {
         for (int j = 1; j < this->cols - 1; ++j) {
-            if (this->values[i][j] != BOMB) {
-                this->values[i][j] = countBombs(i, j);
+            if (this->values.at(i).at(j) != BOMB) {
+                this->values.at(i).at(j) = countBombs(i, j);
             }
         }
     }
@@ -97,7 +88,7 @@ char Grid::countBombs(const int &m, const int &n) {
     char bombNeighbors = NOT;
     for (int i = m - 1; i <= m + 1; ++i) {
         for (int j = n - 1; j <= n + 1; ++j) {
-            if (this->values[i][j] == BOMB) {
+            if (this->values.at(i).at(j) == BOMB) {
                 bombNeighbors++;
             }
         }

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <set>
 #include <utility>
+#include <vector>
 
 static constexpr char BOMB = 'b';
 static constexpr char MARK = 'm';
@@ -14,21 +15,19 @@ class Grid {
 
   public:
     Grid(const int &_rows, const int &_cols, std::ostream &_ostream);
-    ~Grid();
 
+    [[nodiscard]] int getRows() const { return this->rows; }
+    [[nodiscard]] int getCols() const { return this->cols; }
     [[nodiscard]] char getValue(const std::pair<int, int> &p) const {
-        return this->values[p.first][p.second];
+        return this->values.at(p.first).at(p.second);
     }
-    [[nodiscard]] unsigned size() const {
+    [[nodiscard]] unsigned getSize() const {
         return (this->rows - 2) * (this->cols - 2);
     }
 
     void placeBomb(const std::pair<int, int> &p) {
-        this->values[p.first][p.second] = BOMB;
+        this->values.at(p.first).at(p.second) = BOMB;
     }
-
-    [[nodiscard]] int getRows() const { return this->rows; }
-    [[nodiscard]] int getCols() const { return this->cols; }
 
     void printHeader() const;
     void printSeparator() const;
@@ -43,6 +42,6 @@ class Grid {
   private:
     int rows;
     int cols;
-    char **values;
+    std::vector<std::vector<char>> values;
     std::ostream &outStream;
 };
