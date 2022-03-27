@@ -19,7 +19,7 @@ $(BIN): $(OBJ)/grid.o $(OBJ)/input.o $(OBJ)/random.o $(OBJ)/logic.o $(OBJ)/mines
 $(OBJ)/grid.o: $(LIB)/color.hpp $(LIB)/msgassert.hpp $(LIB)/grid.hpp $(SRC)/grid.cpp
 		$(CC) $(CFLAGS) -I$(LIB) -c $(SRC)/grid.cpp -o $(OBJ)/grid.o
 
-$(OBJ)/input.o: $(LIB)/actions.hpp $(LIB)/input.hpp $(SRC)/input.cpp
+$(OBJ)/input.o: $(LIB)/msgassert.hpp $(LIB)/actions.hpp $(LIB)/input.hpp $(SRC)/input.cpp
 		$(CC) $(CFLAGS) -I$(LIB) -c $(SRC)/input.cpp -o $(OBJ)/input.o
 
 $(OBJ)/random.o: $(LIB)/random.hpp $(SRC)/random.cpp

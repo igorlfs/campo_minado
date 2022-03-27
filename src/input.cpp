@@ -1,5 +1,6 @@
 #include "input.hpp"
 #include "actions.hpp"
+#include "msgassert.hpp"
 #include <regex>
 
 using std::getline;
@@ -19,9 +20,7 @@ void Input::greetPosition(ostream &outStream) {
               << "Exemplos de posições válidas são: A2, C5, D4\n\n";
 }
 
-pair<int, int> Input::getPosition(istream &inStream, ostream &outStream,
-                                  ostream &errStream) {
-insertAgain:
+pair<int, int> Input::getPosition(istream &inStream, ostream &outStream) {
     outStream << "Escolha uma posição: ";
     const regex EXPECTED_FORMAT("[A-Z][1-9][0-9]*");
     string readLine;
@@ -29,14 +28,11 @@ insertAgain:
     int column;
 
     getline(inStream, readLine);
-    if (inStream.eof()) {
-        errStream << "\nA entrada de dados foi interrompida. Saindo.\n";
-        exit(1);
-    }
+    assertUser(!inStream.eof(), "A entrada de dados foi interrompida. Saindo.");
 
     if (!regex_match(readLine, EXPECTED_FORMAT)) {
         outStream << "\nEntrada Inválida. Atente-se aos exemplos de entrada.\n";
-        goto insertAgain;
+        return {0, 0};
     }
 
     stringstream ss(readLine);
@@ -55,9 +51,7 @@ void Input::greetAction(ostream &outStream) {
                  "posição marcada\n\n";
 }
 
-char Input::getAction(istream &inStream, ostream &outStream,
-                      ostream &errStream) {
-insertAgain:
+char Input::getAction(istream &inStream, ostream &outStream) {
     outStream << "Escolha uma ação: ";
     const regex EXPECTED_FORMAT("[a-z]");
     string readLine;
@@ -65,13 +59,10 @@ insertAgain:
 
     getline(inStream, readLine);
 
-    if (inStream.eof()) {
-        errStream << "\n\nA entrada de dados foi interrompida. Saindo.\n\n";
-        exit(1);
-    }
+    assertUser(!inStream.eof(), "A entrada de dados foi interrompida. Saindo.");
     if (!regex_match(readLine, EXPECTED_FORMAT)) {
         outStream << "\nAtenção! A ação é UMA letra minúscula.\n\n";
-        goto insertAgain;
+        return 0;
     }
 
     stringstream ss(readLine);
@@ -79,9 +70,9 @@ insertAgain:
 
     if (action != Actions::SHOW && action != Actions::MARK &&
         action != Actions::UNMARK) {
-        outStream << "\nAtenção! A ação dever ser uma das letras minúsculas "
+        outStream << "\nAtenção! A ação deve ser uma das letras minúsculas "
                      "apresentadas\n\n";
-        goto insertAgain;
+        return 0;
     }
 
     return action;

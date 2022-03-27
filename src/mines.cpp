@@ -19,8 +19,12 @@ Mines::Mines(const int &_rows, const int &_cols, const int &_bombs)
 }
 
 void Mines::input() {
-    this->action = Input::getAction(cin, cout, cerr);
-    this->pos = Input::getPosition(cin, cout, cerr);
+    do {
+        this->action = Input::getAction(cin, cout);
+    } while (this->action == 0);
+    do {
+        this->pos = Input::getPosition(cin, cout);
+    } while (this->pos == make_pair(0, 0));
 }
 
 void Mines::update() {
