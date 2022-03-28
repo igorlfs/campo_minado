@@ -1,6 +1,7 @@
-CC = g++
+CC = clang++
 
-CFLAGS = -Wall -Wextra -std=c++17 -g -Wshadow -Wpedantic
+# More warning, C++17, enable debugging symbols and additional debug info
+CFLAGS = -Wall -Wextra -Wshadow -Wpedantic -std=c++17 -g -fstandalone-debug
 
 OBJ = obj
 LIB = lib
@@ -36,8 +37,8 @@ $(OBJ)/main.o: $(LIB)/actions.hpp $(LIB)/mines.hpp $(SRC)/main.cpp
 
 test: $(TEST)
 
-$(TEST): $(OBJ)/input.o $(OBJ)/test.o
-		$(CC) -lgtest -o $(TEST) $(OBJ)/input.o $(OBJ)/test.o
+$(TEST): $(OBJ)/grid.o $(OBJ)/input.o $(OBJ)/test.o
+		$(CC) -lgtest -o $(TEST) $(OBJ)/input.o $(OBJ)/test.o $(OBJ)/grid.o
 		./$(TEST)
 
 $(OBJ)/test.o: $(LIB)/input.hpp $(SRC)/test.cpp
