@@ -11,52 +11,52 @@ bool Logic::hasWon(const int &gridSize) const {
     return (MARKS && REVEALS);
 }
 
-void Logic::placeBombs(Grid &g) {
+void Logic::placeBombs(Grid &grid) {
     for (int i = 0; i < this->numBombs; ++i) {
         while (true) {
-            pair<int, int> p = make_pair(Random::rng(1, g.getRows() - 2),
-                                         Random::rng(1, g.getCols() - 2));
-            if (this->bombs.count(p) == 0) {
-                g.placeBomb(p);
-                this->bombs.insert(p);
+            pair<int, int> bomb = make_pair(Random::rng(1, grid.getRows() - 2),
+                                            Random::rng(1, grid.getCols() - 2));
+            if (!this->bombs.contains(bomb)) {
+                grid.placeBomb(bomb);
+                this->bombs.insert(bomb);
                 break;
             }
         }
     }
 }
 
-void Logic::handleMark(const pair<int, int> &p) {
-    if (this->revealed.count(p) > 0) {
+void Logic::handleMark(const pair<int, int> &loc) {
+    if (this->revealed.contains(loc)) {
         this->outStream << "\nVocê não pode marcar uma posição revelada.\n\n";
     } else {
-        this->marked.insert(p);
+        this->marked.insert(loc);
     }
 }
 
-void Logic::handleReveal(const std::pair<int, int> &p, const Grid &g) {
-    if (this->bombs.count(p) > 0) {
+void Logic::handleReveal(const pair<int, int> &pos, const Grid &grid) {
+    if (this->bombs.contains(pos)) {
         // Reveal bomb to print it after exploding
-        this->revealed.insert(p);
+        this->revealed.insert(pos);
         // It may also be necessary to erase the bomb from marked
-        this->marked.erase(p);
+        this->marked.erase(pos);
         this->exploded = true;
     } else {
-        reveal(p, g);
+        reveal(pos, grid);
     }
 }
 
-void Logic::reveal(const pair<int, int> &p, const Grid &g) {
+void Logic::reveal(const pair<int, int> &pos, const Grid &grid) {
     // Boundary check
-    if (g.isOutOfBounds(p)) {
+    if (grid.isOutOfBounds(pos)) {
         return;
     }
 
     // Reveal
-    this->revealed.insert(p);
+    this->revealed.insert(pos);
 
     // Remove marked position if necessary
-    if (this->marked.count(p) > 0) {
-        this->marked.erase(p);
+    if (this->marked.contains(pos)) {
+        this->marked.erase(pos);
     }
 
     // Stop searching when a non null number is found;
@@ -65,16 +65,16 @@ void Logic::reveal(const pair<int, int> &p, const Grid &g) {
     // options: either zero hasn't been chosen, which stops the search
     // immediately OR the number is zero, but a bomb can only be surrounded by
     // non null numbers and the search stops when finding them.
-    if (g.getValue(p) != NOT) {
+    if (grid.getValue(pos) != NOT) {
         return;
     }
 
     // Recursively search the surroundings if they haven't been searched yet
     for (int i = -1; i <= 1; ++i) {
         for (int j = -1; j <= 1; ++j) {
-            const pair<int, int> Q = make_pair(p.first + i, p.second + j);
-            if (this->revealed.count(Q) == 0) {
-                reveal(Q, g);
+            const pair<int, int> Q = make_pair(pos.first + i, pos.second + j);
+            if (!this->revealed.contains(Q)) {
+                reveal(Q, grid);
             }
         }
     }

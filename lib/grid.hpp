@@ -11,6 +11,8 @@ static constexpr char HIDDEN = '+';
 static constexpr char BLANK = ' ';
 static constexpr char NOT = '0';
 
+using std::pair;
+
 class Grid {
 
   public:
@@ -18,26 +20,26 @@ class Grid {
 
     [[nodiscard]] int getRows() const { return this->rows; }
     [[nodiscard]] int getCols() const { return this->cols; }
-    [[nodiscard]] char getValue(const std::pair<int, int> &p) const {
-        return this->values.at(p.first).at(p.second);
+    [[nodiscard]] char getValue(const pair<int, int> &pos) const {
+        return this->values.at(pos.first).at(pos.second);
     }
     [[nodiscard]] unsigned getSize() const {
         return (this->rows - 2) * (this->cols - 2);
     }
 
-    void placeBomb(const std::pair<int, int> &p) {
-        this->values.at(p.first).at(p.second) = BOMB;
+    void placeBomb(const pair<int, int> &pos) {
+        this->values.at(pos.first).at(pos.second) = BOMB;
     }
 
     void printHeader() const;
     void printSeparator() const;
-    void print(const std::set<std::pair<int, int>> &marked,
-               const std::set<std::pair<int, int>> &revealed) const;
+    void print(const std::set<pair<int, int>> &marked,
+               const std::set<pair<int, int>> &revealed) const;
 
     void initialize();
     char countBombs(const int &m, const int &n);
 
-    [[nodiscard]] bool isOutOfBounds(const std::pair<int, int> &p) const;
+    [[nodiscard]] bool isOutOfBounds(const pair<int, int> &pos) const;
 
   private:
     int rows;

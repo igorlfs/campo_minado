@@ -41,9 +41,6 @@ void Mines::update() {
         case Actions::UNMARK:
             this->logic.handleUnmark(this->pos);
             break;
-        default:
-            cerr << "\nAção ilegal\n\n";
-            exit(1);
         }
     }
     if (this->logic.hasExploded()) {

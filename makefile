@@ -1,7 +1,7 @@
-CC = clang++
+CC = g++
 
 # More warning, C++17, enable debugging symbols and additional debug info
-CFLAGS = -Wall -Wextra -Wshadow -Wpedantic -std=c++17 -g -fstandalone-debug
+CFLAGS = -Wall -Wextra -Wshadow -Wpedantic -std=c++20 -g
 
 OBJ = obj
 LIB = lib
@@ -12,7 +12,7 @@ TEST = tests
 
 .PHONY: clean test
 
-all: $(BIN) $(TEST)
+all: $(BIN)
 
 $(BIN): $(OBJ)/grid.o $(OBJ)/input.o $(OBJ)/random.o $(OBJ)/logic.o $(OBJ)/mines.o $(OBJ)/main.o
 		$(CC) -o $(BIN) $(OBJ)/grid.o $(OBJ)/input.o $(OBJ)/random.o $(OBJ)/logic.o $(OBJ)/mines.o $(OBJ)/main.o

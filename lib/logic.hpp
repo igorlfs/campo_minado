@@ -5,30 +5,34 @@
 #include <set>
 #include <utility>
 
+using std::ostream;
+using std::pair;
+using std::set;
+
 class Logic {
   public:
-    Logic(const int &_numBombs, std::ostream &_ostream)
+    Logic(const int &_numBombs, ostream &_ostream)
         : numBombs(_numBombs), outStream(_ostream) {}
 
     [[nodiscard]] bool hasWon(const int &gridSize) const;
     [[nodiscard]] bool hasExploded() const { return this->exploded; }
 
-    void placeBombs(Grid &g);
+    void placeBombs(Grid &grid);
 
-    void handleMark(const std::pair<int, int> &p);
-    void handleUnmark(const std::pair<int, int> &p) { this->marked.erase(p); };
-    void handleReveal(const std::pair<int, int> &p, const Grid &g);
+    void handleMark(const pair<int, int> &loc);
+    void handleUnmark(const pair<int, int> &pos) { this->marked.erase(pos); };
+    void handleReveal(const pair<int, int> &pos, const Grid &grid);
 
   private:
     bool exploded{false};
     int numBombs;
     char action;
-    std::ostream &outStream;
-    std::set<std::pair<int, int>> revealed;
-    std::set<std::pair<int, int>> marked;
-    std::set<std::pair<int, int>> bombs;
+    ostream &outStream;
+    set<pair<int, int>> revealed;
+    set<pair<int, int>> marked;
+    set<pair<int, int>> bombs;
 
-    void reveal(const std::pair<int, int> &p, const Grid &g);
+    void reveal(const pair<int, int> &pos, const Grid &grid);
 
     friend class Mines;
 };

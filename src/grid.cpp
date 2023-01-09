@@ -48,9 +48,9 @@ void Grid::print(const set<pair<int, int>> &marked,
         for (int j = 1; j < this->cols - 1; ++j) {
             const pair<int, int> P = make_pair(i, j);
 
-            if (marked.count(P) > 0) {
+            if (marked.contains(P)) {
                 this->outStream << RED << MARK << RESET;
-            } else if (revealed.count(P) > 0) {
+            } else if (revealed.contains(P)) {
                 switch (this->values.at(i).at(j)) {
                 case NOT:
                     this->outStream << BLANK;
@@ -96,7 +96,7 @@ char Grid::countBombs(const int &m, const int &n) {
     return bombNeighbors;
 }
 
-bool Grid::isOutOfBounds(const pair<int, int> &p) const {
-    return (p.first <= 0 || p.first >= this->rows - 1 || p.second <= 0 ||
-            p.second >= this->cols - 1);
+bool Grid::isOutOfBounds(const pair<int, int> &pos) const {
+    return (pos.first <= 0 || pos.first >= this->rows - 1 || pos.second <= 0 ||
+            pos.second >= this->cols - 1);
 }

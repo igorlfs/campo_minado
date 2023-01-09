@@ -5,16 +5,16 @@ int main() {
     constexpr int ROWS = 6;
     constexpr int COLS = 6;
     constexpr int NUM_BOMBS = 9;
-    Mines g(ROWS, COLS, NUM_BOMBS);
+    Mines game(ROWS, COLS, NUM_BOMBS);
 
-    g.print();
+    game.print();
 
     Input::greetAction();
     Input::greetPosition();
 
-    while (!g.isGameOver()) {
-        g.input();
-        g.update();
-        g.print();
+    while (!game.isGameOver()) {
+        game.input();
+        game.update();
+        game.print();
     }
 }
